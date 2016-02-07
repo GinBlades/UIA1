@@ -34,8 +34,19 @@ public class RayShooter : MonoBehaviour {
             // Set hit to the coordinates of the ray hit.
             if (Physics.Raycast(ray, out hit))
             {
-                // Use coroutine to create and destroy new spheres
-                StartCoroutine(SphereIndicator(hit.point));
+                // Retrieve the object ray hit
+                GameObject hitObject = hit.transform.gameObject;
+
+                // Check for ReactiveTarget component on hit object
+                ReactiveTarget target = hitObject.GetComponent<ReactiveTarget>();
+                if (target != null)
+                {
+                    target.ReactToHit();
+                } else
+                {
+                    // Use coroutine to create and destroy new spheres
+                    StartCoroutine(SphereIndicator(hit.point));
+                }
             }
         }
 	}
